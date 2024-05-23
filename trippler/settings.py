@@ -98,7 +98,7 @@ USE_I18N = True
 USE_TZ = True
 WSGI_APPLICATION = "trippler.wsgi.application"
 
-if (ENV := env("ENV", default=None)) == "local":
+if (ENV := env("ENV", default="local")) == "local":
     INSTALLED_APPS += ["debug_toolbar"]
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
     INTERNAL_IPS = ["127.0.0.1"]
