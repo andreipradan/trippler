@@ -1,0 +1,16 @@
+<form
+  class="row g-3 needs-validation"
+  method="post"
+  hx-post="{{ request.path }}"
+  hx-on::after-request="this.reset()"
+>
+  {% csrf_token %}
+  {% include "expenses/partials/form_field.html" with field=form.description col_size="col-md-8" no_label=True %}
+  {% include "expenses/partials/form_field.html" with field=form.date col_size="col-md-4" no_label=True %}
+  {% include "expenses/partials/form_field.html" with field=form.currency col_size="col-md-3" no_label=True %}
+  {% include "expenses/partials/form_field.html" with field=form.amount col_size="col-md-9" no_label=True %}
+  {% include "expenses/partials/form_field.html" with field=form.payer label="Paid by" floating=True col_size="col-md-4" %}
+  {% include "expenses/partials/form_field.html" with field=form.split_with label="Split with" floating=True col_size="col-md-8" %}
+  <hr class="table-group-divider"/>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

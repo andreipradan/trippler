@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+  <link href="{% static 'css/sign-in.css' %}" rel="stylesheet">
+{% endblock %}
+{% block navbar %}{% endblock %}
+{% block content %}
+  <main class="form-signin w-100 m-auto">
+    <form method="post">
+      {% csrf_token %}
+      <img class="trippler-logo mb-4" src="{% static 'img/trippler/svg/Black logo - no background.svg' %}" alt="" height="90">
+      <h1 class="h3 mb-3 fw-normal">Join & plan your next trip</h1>
+      {% if form.non_field_errors %}
+        <div class="mt-2 text-danger alert-danger">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+      <div class="form-floating">
+        <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+        {% if form.email.errors %}
+          <div class="mt-2 text-danger">{{ form.email.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="form-floating">
+        <input name="password1" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+        {% if form.password1.errors %}
+          <div class="mt-2 text-danger">{{ form.password1.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="form-floating">
+        <input name="password2" type="password" class="form-control" id="floatingPassword" placeholder="Repeat password">
+        <label for="floatingPassword">Repeat Password</label>
+        {% if form.password2.errors %}
+          <div class="mt-2 text-danger">{{ form.password2.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-check text-start my-3">
+        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          Remember me
+        </label>
+      </div>
+      <button class="btn btn-primary w-100 py-2" type="submit">Join</button>
+      <div class="form-check text-start my-3">
+        Already have an account? <a href="{% url 'login' %}">Log in</a>
+      </div>
+      <p class="mt-5 mb-3 text-body-secondary">&copy; pradan.dev</p>
+    </form>
+  </main>
+{% endblock %}

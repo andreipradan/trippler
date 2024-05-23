@@ -1,0 +1,10 @@
+name: Ruff
+on: [push, pull_request]
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: chartboost/ruff-action@v1
+        with:
+          args: --select ALL --ignore "ANN001","ANN002","ANN003","ANN101","ANN201","D100","D101","D102","D103","D104","D105","D106","D107","D203","D205","D213","DJ008","FBT002","RUF012"

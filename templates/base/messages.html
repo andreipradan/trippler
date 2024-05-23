@@ -1,0 +1,27 @@
+{% if messages %}
+  <div
+    class="toast-container bottom-0 end-0 m-5 p-4"
+    style="position: absolute; top: 0; right: 0;"
+    hx-get="{% url 'clear_messages' %}"
+    hx-trigger="load delay:4s"
+  >
+    {% for message in messages %}
+      <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <img
+            height="35"
+            class="d-inline-block align-top trippler-toast-logo"
+            alt="Trippler"
+            loading="lazy"
+            style="filter: invert(1) grayscale(100%) brightness(200%)"
+            src=""
+          >
+          <strong class="me-auto p-1"></strong>
+          <small class="text-body-secondary">now</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body alert {% if message.tags %} {{ message.tags }}{% endif %}">{{ message }}</div>
+        </div>
+    {% endfor %}
+  </div>
+{% endif %}

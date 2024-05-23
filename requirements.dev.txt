@@ -1,0 +1,2 @@
+-r requirements.text.txt
+ruff==0.1.5

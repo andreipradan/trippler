@@ -1,0 +1,28 @@
+{% load static %}
+<div id="expense-body">
+  {% if object_list %}
+    <div class="container mt-3">
+      <div class="justify-content-center align-items-center">
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addExpenseModal"
+          >
+            Add Expense
+          </button>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <div class="container mt-3">
+    <div class="justify-content-center align-items-center" style="height: 100vh">
+      <div class="text-center">
+        <div class="accordion" id="expense-list">
+          {% include 'expenses/partials/expense_accordion.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

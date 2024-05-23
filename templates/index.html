@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+  <div class="position-relative p-5 text-center text-muted bg-body  rounded-5">
+    <svg class="bi mt-5 mb-3" width="48" height="48"><use xlink:href="#check2-circle"/></svg>
+    <h1 class="text-body-emphasis">
+      Start your <img class="trippler-logo" height="95" src="{% static 'img/trippler/svg/Black logo - no background.svg' %}" alt="trippler"> journey today
+    </h1>
+    {% if user.is_authenticated %}
+      <p class="col-lg-6 mx-auto mb-4">
+        Enhance your travel experience with our checklist feature.
+        Create a personalized packing list to ensure you don't forget anything.
+        We provide a comprehensive range of essentials and must-haves for you to choose from.
+      </p>
+      <p class="col-lg-6 mx-auto mb-4">
+        Easily manage group expenses and split costs effortlessly.
+        Prepare for your dream adventure using our practical travel website.
+        Start ticking off your travel essentials and enjoy a hassle-free journey!
+      </p>
+      <a href="{% url 'expenses' %}" class="btn btn-outline-primary px-5 mb-5" type="button">Start here</a>
+    {% else %}
+      <p class="col-lg-6 mx-auto mb-4">
+        Sign up for a full experience on organizing trips, managing expenses and experiences with friends
+      </p>
+      <a
+        class="btn btn-outline-primary px-5 mb-3"
+        href="{% url 'register' %}"
+        hx-get="{% url 'register' %}"
+        hx-target="#login-dialog"
+        type="button"
+      >
+        Sign up
+      </a>
+      <div class="text-center">
+        Already have an account?
+        <a
+          href="{% url 'login' %}"
+          hx-get="{% url 'login' %}"
+          hx-target="#login-dialog"
+        >
+          Log in
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

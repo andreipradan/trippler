@@ -1,0 +1,20 @@
+<div class="{{ col_size|default:'col-md-12' }} text-small">
+  <div class="{% if floating %}form-floating{% endif %}">
+    {{ field }}
+    {% if not no_label %}
+      <label
+        for="id_{{ field.name }}"
+        class="form-label {% if field.errors %}text-danger{% endif %}"
+      >
+        {{ label|default:field.label }}
+      </label>
+    {% endif %}
+    {% if field.errors %}
+      <ul class="errors">
+        {% for error in field.errors %}
+          <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</div>

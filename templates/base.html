@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <link rel="icon" href="{% static 'img/trippler/Favicons/browser.png' %}" type="image/x-icon" />
+  <title>Trippler</title>
+  <link href="{% static 'bootstrap-5.3.2-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/theme_switcher.css' %}" rel="stylesheet">
+  <link href="{% static 'css/headers.css' %}" rel="stylesheet">
+  <link href="{% static 'css/bootstrap-select.min.css' %}" rel="stylesheet">
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+{% include 'base/theme_switcher.html' %}
+{% block navbar %}{% include "base/navbar.html" %}{% endblock %}
+
+<div class="pt-5 mt-4">
+  {% include "base/messages.html" %}
+  {% block content %}{% endblock %}
+
+<div id="login-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" hx-target="this">
+    <div class="modal-content">
+      <main id="login-dialog" class="form-signin w-100 m-auto bg-body-tertiary card"></main>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="{% static 'bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+<script src="{% static 'js/htmx.min.js' %}" defer></script>
+<script src="{% static 'js/theme-switcher.js' %}"></script>
+<script src="{% static 'js/toast.js' %}"></script>
+<script src="{% static 'js/trippler.js' %}"></script>
+<script type="text/javascript">
+(() => {
+  'use strict'
+
+  const setTheme = theme => {
+    const colorLogo = "{% static 'img/trippler/svg/Color logo - no background.svg' %}"
+    const blackLogo = "{% static 'img/trippler/svg/Black logo - no background.svg' %}"
+
+    if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.setAttribute('data-bs-theme', 'dark')
+      setTripplerLogoSrc('.trippler-logo', colorLogo)
+      setTripplerLogoSrc('.trippler-toast-logo', blackLogo)
+      document.getElementById("navbar-logo")?.setAttribute("src", blackLogo)
+    } else {
+      document.documentElement.setAttribute('data-bs-theme', theme)
+      if (theme === "light") {
+        setTripplerLogoSrc('.trippler-logo', blackLogo)
+        setTripplerLogoSrc('.trippler-toast-logo', colorLogo)
+        document.getElementById("navbar-logo")?.setAttribute("src", colorLogo)
+      }
+      else {
+        setTripplerLogoSrc('.trippler-logo', colorLogo)
+        setTripplerLogoSrc('.trippler-toast-logo', blackLogo)
+        document.getElementById("navbar-logo")?.setAttribute("src", blackLogo)
+      }
+
+    }
+  }
+  setTheme(getPreferredTheme())
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    const storedTheme = getStoredTheme()
+    if (storedTheme !== 'light' && storedTheme !== 'dark') {
+      setTheme(getPreferredTheme())
+    }
+  })
+
+  window.addEventListener('DOMContentLoaded', () => {
+    showActiveTheme(getPreferredTheme())
+
+    document.querySelectorAll('[data-bs-theme-value]')
+      .forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          const theme = toggle.getAttribute('data-bs-theme-value')
+          setStoredTheme(theme)
+          setTheme(theme)
+          showActiveTheme(theme, true)
+        })
+      })
+  })
+
+  document.body.addEventListener("htmx:afterSwap", e => {
+    $(".selectpicker").selectpicker("reload");  // reloading selectpicker if form errors
+    setSelectPickerActions()  // resetting styles of selectpicker action buttons
+    setTheme(getPreferredTheme())  // updating logo after showing modal
+    if (e.detail.target.id === "login-dialog") {
+      new bootstrap.Modal($("#login-modal")).show()
+    }
+    if (["expense-list", "expense-body"].includes(e.detail.target.id)) {
+      $('#addExpenseModal').modal("hide")
+    }
+  })
+
+})()
+</script>
+</body>
+</html>
